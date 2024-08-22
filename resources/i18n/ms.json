@@ -1001,7 +1001,8 @@
     "ProjectResourcePolicy": "Dasar Sumber Projek",
     "NoDataToExport": "Data untuk ekstrak CSV tidak wujud.",
     "ExportCSV": "eksport CSV",
-    "Tools": "Alatan"
+    "Tools": "Alatan",
+    "MemorySizeExceedsLimit": "Saiz memori hendaklah kurang daripada 300 PiB"
   },
   "registry": {
     "Hostname": "Nama Hos",
