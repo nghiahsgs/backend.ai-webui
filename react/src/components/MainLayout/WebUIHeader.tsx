@@ -1,6 +1,6 @@
 import { useCustomThemeConfig } from '../../helper/customThemeConfig';
-import { useCurrentDomainValue } from '../../hooks';
-import { useSuspendedBackendaiClient, useWebUINavigate } from '../../hooks';
+import { useCurrentDomainValue, useSuspendedBackendaiClient } from '../../hooks';
+import { useWebUINavigate } from '../../hooks';
 import {
   useCurrentProjectValue,
   useSetCurrentProject,
@@ -17,12 +17,9 @@ import { DRAWER_WIDTH } from '../WEBUINotificationDrawer';
 import WebUIThemeToggleButton from '../WebUIThemeToggleButton';
 // @ts-ignore
 import rawCss from './WebUIHeader.css?raw';
-import { MenuOutlined } from '@ant-design/icons';
-import { theme, Button, Typography, Grid, Divider } from 'antd';
-import _ from 'lodash';
+import { theme, Typography, Divider, Grid } from 'antd';
 import { Suspense, useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMatches } from 'react-router-dom';
 
 export interface WebUIHeaderProps extends FlexProps {
   onClickMenuIcon?: () => void;
@@ -36,11 +33,10 @@ const WebUIHeader: React.FC<WebUIHeaderProps> = ({
 }) => {
   const { token } = theme.useToken();
   const { t } = useTranslation();
+  const baiClient = useSuspendedBackendaiClient();
   const currentDomainName = useCurrentDomainValue();
   const currentProject = useCurrentProjectValue();
   const setCurrentProject = useSetCurrentProject();
-  const baiClient = useSuspendedBackendaiClient();
-  const matches = useMatches();
   const { y: scrolled } = useScrollBreakPoint(
     {
       y: 1,
