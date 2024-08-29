@@ -13,6 +13,7 @@ import LoginSessionExtendButton from '../LoginSessionExtendButton';
 import ProjectSelect from '../ProjectSelect';
 import UserDropdownMenu from '../UserDropdownMenu';
 import WEBUIHelpButton from '../WEBUIHelpButton';
+import { DRAWER_WIDTH } from '../WEBUINotificationDrawer';
 import WebUIThemeToggleButton from '../WebUIThemeToggleButton';
 // @ts-ignore
 import rawCss from './WebUIHeader.css?raw';
@@ -81,6 +82,7 @@ const WebUIHeader: React.FC<WebUIHeaderProps> = ({
       <Flex align="center" justify="start" direction="row" gap={'lg'}>
         <div
           style={{
+            width: DRAWER_WIDTH,
             paddingTop: 18,
             paddingBottom: 18,
             paddingRight: 30,
