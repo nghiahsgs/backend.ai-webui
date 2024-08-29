@@ -1,5 +1,8 @@
 import { useCustomThemeConfig } from '../../helper/customThemeConfig';
-import { useCurrentDomainValue, useSuspendedBackendaiClient } from '../../hooks';
+import {
+  useCurrentDomainValue,
+  useSuspendedBackendaiClient,
+} from '../../hooks';
 import { useWebUINavigate } from '../../hooks';
 import {
   useCurrentProjectValue,
@@ -68,7 +71,7 @@ const WebUIHeader: React.FC<WebUIHeaderProps> = ({
       style={{
         height: HEADER_HEIGHT,
         paddingRight: token.marginMD,
-        backgroundColor: token.colorFillContent,
+        backgroundColor: token.colorLinkHover,
         boxShadow: scrolled ? `0 5px 6px -6px ${token.colorBorder}` : 'none',
         transition: 'background-color 0.2s ease-in-out',
       }}
