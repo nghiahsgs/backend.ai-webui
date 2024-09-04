@@ -1,3 +1,4 @@
+import BAIPropertyFilter from '../components/BAIPropertyFilter';
 import EndpointOwnerInfo from '../components/EndpointOwnerInfo';
 import EndpointStatusTag from '../components/EndpointStatusTag';
 import Flex from '../components/Flex';
@@ -413,6 +414,7 @@ const EndpointListPage: React.FC<PropsWithChildren> = ({ children }) => {
       <Flex
         direction="row"
         justify="between"
+        align='start'
         wrap="wrap"
         gap={'xs'}
         style={{
@@ -421,34 +423,45 @@ const EndpointListPage: React.FC<PropsWithChildren> = ({ children }) => {
           paddingRight: token.paddingContentHorizontalSM,
         }}
       >
-        <Flex direction="column" align="start">
+        <Flex direction="row" gap={'sm'} align='start' wrap='wrap' style={{ flexShrink: 1 }}>
           {baiClient.supports('endpoint-lifecycle-stage-filter') && (
-            <Radio.Group
-              value={selectedLifecycleStage}
-              onChange={(e) => {
-                setSelectedLifecycleStage(e.target?.value);
-                // reset pagination state when filter changes
-                setPaginationState({
-                  current: 1,
-                  pageSize: paginationState.pageSize,
-                });
-              }}
-              optionType="button"
-              buttonStyle="solid"
-              options={[
-                {
-                  label: 'Active',
-                  value: 'created&destroying',
-                },
-                {
-                  label: 'Destroyed',
-                  value: 'destroyed',
-                },
-              ]}
-            />
+            <>
+              <Radio.Group
+                value={selectedLifecycleStage}
+                onChange={(e) => {
+                  setSelectedLifecycleStage(e.target?.value);
+                  // reset pagination state when filter changes
+                  setPaginationState({
+                    current: 1,
+                    pageSize: paginationState.pageSize,
+                  });
+                }}
+                optionType="button"
+                buttonStyle="solid"
+                options={[
+                  {
+                    label: 'Active',
+                    value: 'created&destroying',
+                  },
+                  {
+                    label: 'Destroyed',
+                    value: 'destroyed',
+                  },
+                ]}
+              />
+              <BAIPropertyFilter
+                filterProperties={[
+                  {
+                    key: 'name',
+                    type: 'string',
+                    propertyLabel: t('modelService.EndpointName'),
+                  },
+                ]}
+              />
+            </>
           )}
         </Flex>
-        <Flex direction="row" gap={'xs'} wrap="wrap" style={{ flexShrink: 1 }}>
+        <Flex direction="row" gap={'xs'}>
           <Flex gap={'xs'}>
             <Button
               icon={<ReloadOutlined />}
