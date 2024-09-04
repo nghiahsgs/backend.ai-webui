@@ -29,13 +29,15 @@ const EndpointDetailPage = React.lazy(
   () => import('./pages/EndpointDetailPage'),
 );
 // const SummaryPage = React.lazy(() => import('./pages/SummaryPage'));
+const StartPage = React.lazy(() => import('./pages/StartPage'));
 const EnvironmentPage = React.lazy(() => import('./pages/EnvironmentPage'));
 const MyEnvironmentPage = React.lazy(() => import('./pages/MyEnvironmentPage'));
 const StorageHostSettingPage = React.lazy(
   () => import('./pages/StorageHostSettingPage'),
 );
 const UserSettingsPage = React.lazy(() => import('./pages/UserSettingsPage'));
-const SessionListPage = React.lazy(() => import('./pages/SessionListPage'));
+// const SessionListPage = React.lazy(() => import('./pages/SessionListPage'));
+const NeoSessionPage = React.lazy(() => import('./pages/NeoSessionPage'));
 const SessionLauncherPage = React.lazy(
   () => import('./pages/SessionLauncherPage'),
 );
@@ -60,9 +62,9 @@ const InteractiveLoginPage = React.lazy(
 );
 const ImportAndRunPage = React.lazy(() => import('./pages/ImportAndRunPage'));
 
-const RedirectToSummary = () => {
+const RedirectToStart = () => {
   useSuspendedBackendaiClient();
-  const pathName = '/summary';
+  const pathName = '/start';
   document.dispatchEvent(
     new CustomEvent('move-to-from-react', {
       detail: {
@@ -71,7 +73,7 @@ const RedirectToSummary = () => {
       },
     }),
   );
-  return <Navigate to="/summary" replace />;
+  return <Navigate to="/start" replace />;
 };
 
 const router = createBrowserRouter([
@@ -108,20 +110,20 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <RedirectToSummary />,
+        element: <RedirectToStart />,
       },
       {
         //for electron dev mode
         path: '/build/electron-app/app/index.html',
-        element: <RedirectToSummary />,
+        element: <RedirectToStart />,
       },
       {
         //for electron prod mode
         path: '/app/index.html',
-        element: <RedirectToSummary />,
+        element: <RedirectToStart />,
       },
       {
-        path: '/summary',
+        path: '/start',
         Component: () => {
           const { token } = theme.useToken();
           return (
@@ -134,10 +136,11 @@ const router = createBrowserRouter([
                 closable
               />
               {/* <SummaryPage /> */}
+              <StartPage />
             </>
           );
         },
-        handle: { labelKey: 'webui.menu.Summary' },
+        handle: { labelKey: 'start' },
       },
       {
         path: '/job',
@@ -307,7 +310,8 @@ const router = createBrowserRouter([
       {
         path: '/session',
         handle: { labelKey: 'webui.menu.Sessions' },
-        Component: SessionListPage,
+        Component: NeoSessionPage,
+        // Component: SessionListPage,
       },
       {
         path: '/session/start',
