@@ -9,13 +9,13 @@ import _ from 'lodash';
 import React, { useEffect, useTransition } from 'react';
 
 interface ResourceGroupSelectProps extends SelectProps {
-  projectId?: string;
+  projectName: string;
   autoSelectDefault?: boolean;
   filter?: (projectName: string) => boolean;
 }
 
 const ResourceGroupSelect: React.FC<ResourceGroupSelectProps> = ({
-  projectId,
+  projectName,
   autoSelectDefault,
   filter,
   searchValue,
@@ -24,7 +24,6 @@ const ResourceGroupSelect: React.FC<ResourceGroupSelectProps> = ({
   ...selectProps
 }) => {
   const baiRequestWithPromise = useBaiSignedRequestWithPromise();
-  const currentProject = useCurrentProjectValue();
   const [fetchKey, updateFetchKey] = useUpdatableState('first');
   const [controllableSearchValue, setControllableSearchValue] =
     useControllableState<string>({
@@ -59,10 +58,10 @@ const ResourceGroupSelect: React.FC<ResourceGroupSelectProps> = ({
       },
     ]
   >({
-    queryKey: ['ResourceGroupSelectQuery', currentProject.name],
+    queryKey: ['ResourceGroupSelectQuery', projectName],
     queryFn: () => {
       const search = new URLSearchParams();
-      search.set('group', currentProject.name);
+      search.set('group', projectName);
       return Promise.all([
         baiRequestWithPromise({
           method: 'GET',
@@ -142,11 +141,11 @@ const ResourceGroupSelect: React.FC<ResourceGroupSelectProps> = ({
       {...searchProps}
       defaultValue={autoSelectDefault ? autoSelectedOption : undefined}
       onDropdownVisibleChange={(open) => {
-        if (open) {
-          startLoadingTransition(() => {
-            updateFetchKey();
-          });
-        }
+        // if (open) {
+        //   startLoadingTransition(() => {
+        //     updateFetchKey();
+        //   });
+        // }
       }}
       loading={isPendingLoading || loading}
       options={_.map(resourceGroups, (resourceGroup) => {

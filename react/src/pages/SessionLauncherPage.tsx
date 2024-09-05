@@ -26,6 +26,7 @@ import SessionLauncherValidationTour from '../components/SessionLauncherErrorTou
 import SessionNameFormItem, {
   SessionNameFormItemValue,
 } from '../components/SessionNameFormItem';
+import SessionOwnerSetterCard from '../components/SessionOwnerSetterCard';
 import SourceCodeViewer from '../components/SourceCodeViewer';
 import VFolderTableFormItem, {
   VFolderTableFormValues,
@@ -237,6 +238,7 @@ const SessionLauncherPage = () => {
             ['environments.image'],
             ['environments.customizedTag'],
             ['autoMountedFolderNames'],
+            ['owner'],
           ),
         },
         'replaceIn',
@@ -905,6 +907,8 @@ const SessionLauncherPage = () => {
                     </Form.Item>
                   </Card>
                 )}
+
+                <SessionOwnerSetterCard />
 
                 {sessionType === 'inference' && (
                   <Card title="Inference Mode Configuration">
