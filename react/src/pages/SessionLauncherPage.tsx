@@ -1757,16 +1757,16 @@ const SessionLauncherPage = () => {
         }}
       /> */}
       {currentStep === steps.length - 1 ? (
-        // <ErrorBoundary fallback={null}>
-        <SessionLauncherValidationTour
-          open={validationTourOpen}
-          onClose={() => {
-            setValidationTourOpen(false);
-          }}
-          scrollIntoViewOptions
-        />
-      ) : // </ErrorBoundary>
-      undefined}
+        <ErrorBoundary fallback={null}>
+          <SessionLauncherValidationTour
+            open={validationTourOpen}
+            onClose={() => {
+              setValidationTourOpen(false);
+            }}
+            scrollIntoViewOptions
+          />
+        </ErrorBoundary>
+      ) : undefined}
     </Flex>
   );
 };
