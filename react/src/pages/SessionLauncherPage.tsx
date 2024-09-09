@@ -27,6 +27,7 @@ import SessionNameFormItem, {
   SessionNameFormItemValue,
 } from '../components/SessionNameFormItem';
 import SessionOwnerSetterCard from '../components/SessionOwnerSetterCard';
+import { SessionOwnerSetterPreviewCard } from '../components/SessionOwnerSetterCard';
 import SourceCodeViewer from '../components/SourceCodeViewer';
 import VFolderTableFormItem, {
   VFolderTableFormValues,
@@ -1208,50 +1209,14 @@ const SessionLauncherPage = () => {
                         )}
                       </Descriptions>
                     </BAICard>
-                    {console.log(form.getFieldsError([['owner']]))}
-                    <BAICard
-                      title={t('session.launcher.SetSessionOwner')}
-                      size="small"
-                      status={
-                        form.getFieldError(['owner', 'email']).length > 0 ||
-                        form.getFieldError(['owner', 'accesskey']).length > 0 ||
-                        form.getFieldError(['owner', 'group']).length > 0 ||
-                        form.getFieldError(['owner', 'scaling-group']).length >
-                          0
-                          ? 'error'
-                          : undefined
-                      }
-                      extraButtonTitle={t('button.Edit')}
+                    <SessionOwnerSetterPreviewCard
                       onClickExtraButton={() => {
                         setCurrentStep(
                           // @ts-ignore
                           steps.findIndex((v) => v.key === 'sessionType'),
                         );
                       }}
-                    >
-                      <Descriptions size="small" column={1}>
-                        <Descriptions.Item
-                          label={t('session.launcher.OwnerEmail')}
-                        >
-                          {form.getFieldValue(['owner', 'email'])}
-                        </Descriptions.Item>
-                        <Descriptions.Item
-                          label={t('session.launcher.OwnerAccessKey')}
-                        >
-                          {form.getFieldValue(['owner', 'accesskey'])}
-                        </Descriptions.Item>
-                        <Descriptions.Item
-                          label={t('session.launcher.OwnerGroup')}
-                        >
-                          {form.getFieldValue(['owner', 'group'])}
-                        </Descriptions.Item>
-                        <Descriptions.Item
-                          label={t('session.launcher.OwnerResourceGroup')}
-                        >
-                          {form.getFieldValue(['owner', 'scaling-group'])}
-                        </Descriptions.Item>
-                      </Descriptions>
-                    </BAICard>
+                    />
                     <BAICard
                       title={t('session.launcher.Environments')}
                       size="small"

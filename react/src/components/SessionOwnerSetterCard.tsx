@@ -1,16 +1,16 @@
-import { useCurrentDomainValue, useSuspendedBackendaiClient } from '../hooks';
+import BAICard, { BAICardProps } from '../BAICard';
+import { useCurrentDomainValue } from '../hooks';
+import { useCurrentUserRole } from '../hooks/backendai';
 import { useTanQuery } from '../hooks/reactQueryAlias';
 import BAISelect from './BAISelect';
 import Flex from './Flex';
 import ResourceGroupSelect from './ResourceGroupSelect';
-import {
-  SessionOwnerSetterCardQuery,
-  SessionOwnerSetterCardQuery$data,
-} from './__generated__/SessionOwnerSetterCardQuery.graphql';
+import { SessionOwnerSetterCardQuery } from './__generated__/SessionOwnerSetterCardQuery.graphql';
 import {
   Button,
   Card,
   Col,
+  Descriptions,
   Form,
   Input,
   Row,
@@ -21,8 +21,8 @@ import {
 import { CardProps } from 'antd/lib';
 import graphql from 'babel-plugin-relay/macro';
 import _ from 'lodash';
-import { BanIcon, CheckIcon } from 'lucide-react';
-import React, { startTransition, Suspense, useEffect, useState } from 'react';
+import { CheckIcon } from 'lucide-react';
+import React, { Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchQuery, useRelayEnvironment } from 'react-relay';
 
@@ -37,7 +37,6 @@ const SessionOwnerSetterCard: React.FC<CardProps> = (props) => {
   const relayEvn = useRelayEnvironment();
   const domainName = useCurrentDomainValue();
 
-  // const baiClient = useSuspendedBackendaiClient();
   const { data, isFetching } = useTanQuery({
     queryKey: ['SessionOwnerSetterCard', 'ownerInfo', fetchingEmail],
     queryFn: () => {
@@ -68,69 +67,8 @@ const SessionOwnerSetterCard: React.FC<CardProps> = (props) => {
     enabled: !!fetchingEmail,
   });
 
-  console.log('###', data);
   const ownerKeypairs = data?.keypairs;
   const owner = data?.user;
-
-  // const handleFetchOwnerInfo = async () => {
-  //   const email = form.getFieldValue(['owner', 'email']);
-  //   if (email) {
-  //     const query = graphql`
-  //       query SessionOwnerSetterCardQuery(
-  //         $email: String!
-  //         $domainName: String!
-  //       ) {
-  //         keypairs(email: $email) {
-  //           access_key
-  //         }
-  //         user(domain_name: $domainName, email: $email) {
-  //           groups {
-  //             name
-  //             id
-  //           }
-  //         }
-  //       }
-  //     `;
-  //     try {
-  //       const data = await fetchQuery<SessionOwnerSetterCardQuery>(
-  //         relayEvn,
-  //         query,
-  //         { email, domainName },
-  //       ).toPromise();
-  //       setOwnerInfo(data);
-  //       // console.log('Fetched owner info:', data);
-  //     } catch (error) {
-  //       // console.error('Error fetching owner info:', error);
-  //     }
-  //   }
-  // };
-
-  // const handleFetchOwnerInfo = async () => {
-  //   if(fetchingEmail){
-  //     const query = graphql`
-  //       query SessionOwnerSetterCardQuery($email: String!) {
-
-  //       }
-  //     `
-  //   }
-  // }
-
-  // console.log(data?.keypairs);
-  // useEffect(() => {
-  //   if (
-  //     data?.keypairs &&
-  //     !_.find(
-  //       data.keypairs,
-  //       (k) => form.getFieldValue(['owner', 'accesskey']) === k.access_key,
-  //     )
-  //   ) {
-  //     form.setFieldsValue({
-  //       owner: {
-  //         accesskey: data.keypairs[0].access_key,
-  //       },
-  //     });
-  //   }
-  // }, [data?.keypairs]);
 
   const nonExistentOwner = !isFetching && fetchingEmail && !owner;
   return (
@@ -228,7 +166,7 @@ const SessionOwnerSetterCard: React.FC<CardProps> = (props) => {
                     };
                   })}
                   autoSelectOption
-                  disabled={_.isEmpty(fetchingEmail)}
+                  disabled={_.isEmpty(fetchingEmail) || isFetching}
                   // defaultActiveFirstOption
                 />
               </Form.Item>
@@ -251,7 +189,7 @@ const SessionOwnerSetterCard: React.FC<CardProps> = (props) => {
                         };
                       })}
                       autoSelectOption
-                      disabled={_.isEmpty(fetchingEmail)}
+                      disabled={_.isEmpty(fetchingEmail) || isFetching}
                     />
                   </Form.Item>
                 </Col>
@@ -259,27 +197,42 @@ const SessionOwnerSetterCard: React.FC<CardProps> = (props) => {
                   <Form.Item dependencies={[['owner', 'group']]} noStyle>
                     {({ getFieldValue }) => {
                       return (
-                        <Form.Item
-                          name={['owner', 'scaling-group']}
-                          label={t('session.launcher.OwnerResourceGroup')}
-                          rules={[
-                            {
-                              required: getFieldValue(['owner', 'enabled']),
-                            },
-                          ]}
+                        <Suspense
+                          fallback={
+                            <Form.Item
+                              label={t('session.launcher.OwnerResourceGroup')}
+                              rules={[
+                                {
+                                  required: getFieldValue(['owner', 'enabled']),
+                                },
+                              ]}
+                            >
+                              <Select loading />
+                            </Form.Item>
+                          }
                         >
-                          <Suspense fallback={<Select loading />}>
+                          <Form.Item
+                            name={['owner', 'scaling-group']}
+                            label={t('session.launcher.OwnerResourceGroup')}
+                            rules={[
+                              {
+                                required: getFieldValue(['owner', 'enabled']),
+                              },
+                            ]}
+                          >
                             {getFieldValue(['owner', 'group']) ? (
                               <ResourceGroupSelect
                                 projectName={getFieldValue(['owner', 'group'])}
-                                disabled={_.isEmpty(fetchingEmail)}
+                                disabled={
+                                  _.isEmpty(fetchingEmail) || isFetching
+                                }
                                 autoSelectDefault
                               />
                             ) : (
                               <Select disabled />
                             )}
-                          </Suspense>
-                        </Form.Item>
+                          </Form.Item>
+                        </Suspense>
                       );
                     }}
                   </Form.Item>
@@ -290,6 +243,49 @@ const SessionOwnerSetterCard: React.FC<CardProps> = (props) => {
         }}
       </Form.Item>
     </Card>
+  );
+};
+
+export const SessionOwnerSetterPreviewCard: React.FC<BAICardProps> = (
+  props,
+) => {
+  const { t } = useTranslation();
+  const form = Form.useFormInstance();
+  const isActive = Form.useWatch(['owner', 'enabled'], form);
+  const currentUserRole = useCurrentUserRole();
+  return (
+    (currentUserRole === 'admin' || currentUserRole === 'superadmin') &&
+    isActive && (
+      <BAICard
+        title={t('session.launcher.SetSessionOwner')}
+        size="small"
+        status={
+          form.getFieldError(['owner', 'email']).length > 0 ||
+          form.getFieldError(['owner', 'accesskey']).length > 0 ||
+          form.getFieldError(['owner', 'group']).length > 0 ||
+          form.getFieldError(['owner', 'scaling-group']).length > 0
+            ? 'error'
+            : undefined
+        }
+        extraButtonTitle={t('button.Edit')}
+        {...props}
+      >
+        <Descriptions size="small" column={1}>
+          <Descriptions.Item label={t('session.launcher.OwnerEmail')}>
+            {form.getFieldValue(['owner', 'email'])}
+          </Descriptions.Item>
+          <Descriptions.Item label={t('session.launcher.OwnerAccessKey')}>
+            {form.getFieldValue(['owner', 'accesskey'])}
+          </Descriptions.Item>
+          <Descriptions.Item label={t('session.launcher.OwnerGroup')}>
+            {form.getFieldValue(['owner', 'group'])}
+          </Descriptions.Item>
+          <Descriptions.Item label={t('session.launcher.OwnerResourceGroup')}>
+            {form.getFieldValue(['owner', 'scaling-group'])}
+          </Descriptions.Item>
+        </Descriptions>
+      </BAICard>
+    )
   );
 };
 
