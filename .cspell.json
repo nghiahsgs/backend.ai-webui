@@ -8,6 +8,7 @@
     "cssinjs",
     "cuda",
     "FGPU",
+    "filebrowser",
     "Frgmt",
     "Gaudi",
     "keypair",
@@ -16,14 +17,13 @@
     "Popconfirm",
     "preopen",
     "shmem",
+    "superadmin",
+    "vfolder",
     "vfolders",
     "Warboy",
     "webcomponent",
     "webui",
-    "wsproxy",
-    "vfolders",
-    "vfolder",
-    "filebrowser"
+    "wsproxy"
   ],
   "flagWords": [
     "데이터레이크",

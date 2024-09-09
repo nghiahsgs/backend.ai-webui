@@ -18,6 +18,7 @@ import {
   Switch,
   theme,
 } from 'antd';
+import { CardProps } from 'antd/lib';
 import graphql from 'babel-plugin-relay/macro';
 import _ from 'lodash';
 import { BanIcon, CheckIcon } from 'lucide-react';
@@ -25,7 +26,7 @@ import React, { startTransition, Suspense, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchQuery, useRelayEnvironment } from 'react-relay';
 
-const SessionOwnerSetterCard = () => {
+const SessionOwnerSetterCard: React.FC<CardProps> = (props) => {
   const { t } = useTranslation();
   const { token } = theme.useToken();
   const form = Form.useFormInstance();
@@ -152,6 +153,7 @@ const SessionOwnerSetterCard = () => {
               },
             }
       }
+      {...props}
     >
       <Form.Item dependencies={[['owner', 'enabled']]} noStyle>
         {({ getFieldValue }) => {

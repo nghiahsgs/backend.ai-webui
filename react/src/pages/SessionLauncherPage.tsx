@@ -41,6 +41,7 @@ import {
   useUpdatableState,
   useWebUINavigate,
 } from '../hooks';
+import { useCurrentUserRole } from '../hooks/backendai';
 import { useSetBAINotification } from '../hooks/useBAINotification';
 import { useCurrentProjectValue } from '../hooks/useCurrentProject';
 import { useThemeMode } from '../hooks/useThemeMode';
@@ -171,6 +172,7 @@ const SessionLauncherPage = () => {
 
   const mainContentDivRef = useAtomValue(mainContentDivRefState);
   const baiClient = useSuspendedBackendaiClient();
+  const currentUserRole = useCurrentUserRole();
 
   const [isStartingSession, setIsStartingSession] = useState(false);
   const INITIAL_FORM_VALUES: SessionLauncherValue = useMemo(
@@ -908,7 +910,15 @@ const SessionLauncherPage = () => {
                   </Card>
                 )}
 
-                <SessionOwnerSetterCard />
+                {(currentUserRole === 'admin' ||
+                  currentUserRole === 'superadmin') && (
+                  <SessionOwnerSetterCard
+                    style={{
+                      display:
+                        currentStepKey === 'sessionType' ? 'block' : 'none',
+                    }}
+                  />
+                )}
 
                 {sessionType === 'inference' && (
                   <Card title="Inference Mode Configuration">
@@ -1196,6 +1206,50 @@ const SessionLauncherPage = () => {
                             </Descriptions.Item>
                           </>
                         )}
+                      </Descriptions>
+                    </BAICard>
+                    {console.log(form.getFieldsError([['owner']]))}
+                    <BAICard
+                      title={t('session.launcher.SetSessionOwner')}
+                      size="small"
+                      status={
+                        form.getFieldError(['owner', 'email']).length > 0 ||
+                        form.getFieldError(['owner', 'accesskey']).length > 0 ||
+                        form.getFieldError(['owner', 'group']).length > 0 ||
+                        form.getFieldError(['owner', 'scaling-group']).length >
+                          0
+                          ? 'error'
+                          : undefined
+                      }
+                      extraButtonTitle={t('button.Edit')}
+                      onClickExtraButton={() => {
+                        setCurrentStep(
+                          // @ts-ignore
+                          steps.findIndex((v) => v.key === 'sessionType'),
+                        );
+                      }}
+                    >
+                      <Descriptions size="small" column={1}>
+                        <Descriptions.Item
+                          label={t('session.launcher.OwnerEmail')}
+                        >
+                          {form.getFieldValue(['owner', 'email'])}
+                        </Descriptions.Item>
+                        <Descriptions.Item
+                          label={t('session.launcher.OwnerAccessKey')}
+                        >
+                          {form.getFieldValue(['owner', 'accesskey'])}
+                        </Descriptions.Item>
+                        <Descriptions.Item
+                          label={t('session.launcher.OwnerGroup')}
+                        >
+                          {form.getFieldValue(['owner', 'group'])}
+                        </Descriptions.Item>
+                        <Descriptions.Item
+                          label={t('session.launcher.OwnerResourceGroup')}
+                        >
+                          {form.getFieldValue(['owner', 'scaling-group'])}
+                        </Descriptions.Item>
                       </Descriptions>
                     </BAICard>
                     <BAICard
@@ -1738,6 +1792,7 @@ const SessionLauncherPage = () => {
         }}
       /> */}
       {currentStep === steps.length - 1 ? (
+        // <ErrorBoundary fallback={null}>
         <SessionLauncherValidationTour
           open={validationTourOpen}
           onClose={() => {
@@ -1745,7 +1800,8 @@ const SessionLauncherPage = () => {
           }}
           scrollIntoViewOptions
         />
-      ) : undefined}
+      ) : // </ErrorBoundary>
+      undefined}
     </Flex>
   );
 };
