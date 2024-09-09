@@ -2,11 +2,10 @@ import { useBaiSignedRequestWithPromise } from '../helper';
 import { useUpdatableState } from '../hooks';
 import { useSuspenseTanQuery } from '../hooks/reactQueryAlias';
 import useControllableState from '../hooks/useControllableState';
-import { useCurrentProjectValue } from '../hooks/useCurrentProject';
 import TextHighlighter from './TextHighlighter';
 import { Select, SelectProps } from 'antd';
 import _ from 'lodash';
-import React, { useEffect, useTransition } from 'react';
+import React, { useEffect } from 'react';
 
 interface ResourceGroupSelectProps extends SelectProps {
   projectName: string;
@@ -24,7 +23,7 @@ const ResourceGroupSelect: React.FC<ResourceGroupSelectProps> = ({
   ...selectProps
 }) => {
   const baiRequestWithPromise = useBaiSignedRequestWithPromise();
-  const [fetchKey, updateFetchKey] = useUpdatableState('first');
+  const [fetchKey] = useUpdatableState('first');
   const [controllableSearchValue, setControllableSearchValue] =
     useControllableState<string>({
       value: searchValue,
@@ -34,7 +33,6 @@ const ResourceGroupSelect: React.FC<ResourceGroupSelectProps> = ({
   const [controllableValue, setControllableValue] =
     useControllableState(selectProps);
 
-  const [isPendingLoading, startLoadingTransition] = useTransition();
   const { data: resourceGroupSelectQueryResult } = useSuspenseTanQuery<
     [
       {
@@ -147,7 +145,7 @@ const ResourceGroupSelect: React.FC<ResourceGroupSelectProps> = ({
         //   });
         // }
       }}
-      loading={isPendingLoading || loading}
+      loading={loading}
       options={_.map(resourceGroups, (resourceGroup) => {
         return { value: resourceGroup.name, label: resourceGroup.name };
       })}

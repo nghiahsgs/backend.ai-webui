@@ -3,7 +3,6 @@ import { useCurrentProjectValue } from '../hooks/useCurrentProject';
 import { useResourceLimitAndRemaining } from '../hooks/useResourceLimitAndRemaining';
 import BAIProgressWithLabel from './BAIProgressWithLabel';
 import Flex from './Flex';
-import ResourceGroupSelect from './ResourceGroupSelect';
 import ResourceGroupSelectForCurrentProject from './ResourceGroupSelectForCurrentProject';
 import { QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Button, Card, Tooltip } from 'antd';
