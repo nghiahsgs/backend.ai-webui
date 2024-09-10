@@ -3,6 +3,7 @@ import BAIIntervalText from '../components/BAIIntervalText';
 import DatePickerISO from '../components/DatePickerISO';
 import DoubleTag from '../components/DoubleTag';
 import EnvVarFormList, {
+  sanitizeSensitiveEnv,
   EnvVarFormListValue,
 } from '../components/EnvVarFormList';
 import Flex from '../components/Flex';
@@ -229,14 +230,21 @@ const SessionLauncherPage = () => {
       // console.log('syncFormToURLWithDebounce', form.getFieldsValue());
       // To sync the latest form values to URL,
       // 'trailing' is set to true, and get the form values here."
+      const currentValue = form.getFieldsValue();
       setQuery(
         {
           // formValues: form.getFieldsValue(),
-          formValues: _.omit(
-            form.getFieldsValue(),
-            ['environments.image'],
-            ['environments.customizedTag'],
-            ['autoMountedFolderNames'],
+          formValues: _.extend(
+            _.omit(
+              form.getFieldsValue(),
+              ['environments.image'],
+              ['environments.customizedTag'],
+              ['autoMountedFolderNames'],
+              ['envvars'],
+            ),
+            {
+              envvars: sanitizeSensitiveEnv(currentValue.envvars),
+            },
           ),
         },
         'replaceIn',
