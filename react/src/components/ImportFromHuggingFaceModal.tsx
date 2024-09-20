@@ -1,11 +1,14 @@
 import { baiSignedRequestWithPromise } from '../helper';
 import { useSuspendedBackendaiClient } from '../hooks';
 import { useSuspenseTanQuery } from '../hooks/reactQueryAlias';
+import { useTanMutation } from '../hooks/reactQueryAlias';
+import { useBAINotificationState } from '../hooks/useBAINotification';
 import BAIModal, { BAIModalProps } from './BAIModal';
 import Flex from './Flex';
 import { FilterOutlined } from '@ant-design/icons';
 import { useToggle } from 'ahooks';
 import {
+  App,
   Button,
   Card,
   Empty,
@@ -69,11 +72,13 @@ const ImportFromHuggingFaceModal: React.FC<ImportFromHuggingFaceModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const { token } = theme.useToken();
+  const { message } = App.useApp();
+  const baiClient = useSuspendedBackendaiClient();
   const formRef = useRef<FormInstance<Service>>(null);
   const [isImportOnly, { toggle: toggleIsImportOnly }] = useToggle(false);
   const [huggingFaceURL, setHuggingFaceURL] = useState<string | undefined>();
   const [typedURL, setTypedURL] = useState('');
-  const baiClient = useSuspendedBackendaiClient();
+  const [, { upsertNotification }] = useBAINotificationState();
 
   const [isPendingCheck, startCheckTransition] = useTransition();
   const huggingFaceModelInfo = useSuspenseTanQuery<{
@@ -121,6 +126,27 @@ const ImportFromHuggingFaceModal: React.FC<ImportFromHuggingFaceModalProps> = ({
     }
   }, [baiModalProps.open]);
 
+  const importAndStartService = useTanMutation({
+    mutationFn: (values: {
+      huggingFaceUrl: string;
+      importOnly?: boolean;
+      serviceName?: string;
+      folderName?: string;
+    }) => {
+      return baiSignedRequestWithPromise({
+        method: 'POST',
+        url: '/services/_/huggingface/models',
+        body: {
+          huggingface_url: values.huggingFaceUrl,
+          import_only: values?.importOnly,
+          service_name: values?.serviceName,
+          folder_name: values?.folderName,
+        },
+        client: baiClient,
+      });
+    },
+  });
+
   // validate when huggingFaceModelInfo is updated
   useEffect(() => {
     if (huggingFaceModelInfo.data.url) {
@@ -132,8 +158,43 @@ const ImportFromHuggingFaceModal: React.FC<ImportFromHuggingFaceModalProps> = ({
     formRef.current
       ?.validateFields()
       .then((values) => {
-        // TODO: Implement import from Hugging Face
-        onRequestClose();
+        importAndStartService.mutate(
+          {
+            huggingFaceUrl: values.url,
+            importOnly: isImportOnly,
+            serviceName: values.service_name || undefined,
+            folderName: values.folder_name || undefined,
+          },
+          {
+            onSuccess(data: any) {
+              if (data?.folder?.id && data?.folder?.name) {
+                upsertNotification({
+                  key: 'ImportFromHuggingFaceModal' + data.folder.id,
+                  description: `${t('data.modelStore.NewModelStoreFolderHasBeenCreated')}: ${data.folder.name}`,
+                  open: true,
+                  duration: 0,
+                  toText: t('data.modelStore.OpenFolder'),
+                  to: `/data?tab=model-store&folder=${data.folder.id}`,
+                });
+              }
+              if (data?.service?.endpoint_id && data?.service?.name) {
+                upsertNotification({
+                  key: 'ImportFromHuggingFaceModal' + data.service.endpoint_id,
+                  description: `${t('data.modelStore.NewServiceHasBeenCreated')}: ${data.service.name}`,
+                  open: true,
+                  duration: 0,
+                  toText: t('data.modelStore.ViewServiceInfo'),
+                  to: `/serving/${data.service.endpoint_id}`,
+                });
+              }
+              onRequestClose();
+            },
+            onError(e) {
+              message.error(e.message || t('dialog.ErrorOccurred'));
+              onRequestClose();
+            },
+          },
+        );
       })
       .catch(() => {});
   };
@@ -153,22 +214,19 @@ const ImportFromHuggingFaceModal: React.FC<ImportFromHuggingFaceModalProps> = ({
     <BAIModal
       title={t('data.modelStore.ImportFromHuggingFace')}
       centered
-      footer={
-        <Button
-          type="primary"
-          htmlType="submit"
-          onClick={handleOnClick}
-          disabled={
-            !shouldSkipURLCheck ||
-            (!_.isEmpty(huggingFaceModelInfo.data?.pipeline_tag) &&
-              huggingFaceModelInfo.data?.pipeline_tag !== 'text-generation')
-          }
-        >
-          {isImportOnly
-            ? t('data.modelStore.Import')
-            : t('data.modelStore.ImportAndStartService')}
-        </Button>
+      confirmLoading={importAndStartService.isPending}
+      okText={
+        isImportOnly
+          ? t('data.modelStore.Import')
+          : t('data.modelStore.ImportAndStartService')
       }
+      onOk={handleOnClick}
+      okButtonProps={{
+        disabled:
+          !shouldSkipURLCheck ||
+          (!_.isEmpty(huggingFaceModelInfo.data?.pipeline_tag) &&
+            huggingFaceModelInfo.data?.pipeline_tag !== 'text-generation'),
+      }}
       onCancel={onRequestClose}
       destroyOnClose
       {...baiModalProps}

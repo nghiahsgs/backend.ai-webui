@@ -905,8 +905,12 @@
       "Author": "작성자",
       "InvalidHuggingFaceUrl": "유효한 Hugging Face URL을 입력해주세요",
       "PleaseClickCheckButton": "확인 버튼을 클릭해주세요",
-      "ServiceName": "서비스 이름",
       "ModelStoreFolderName": "모델 저장소 폴더 이름",
+      "ServiceName": "서비스 이름",
+      "NewModelStoreFolderHasBeenCreated": "새 모델 저장소 폴더가 생성되었습니다.",
+      "NewServiceHasBeenCreated": "새로운 서비스가 생성되었습니다",
+      "OpenFolder": "폴더 열기",
+      "ViewServiceInfo": "서비스 정보 보기",
       "NotSupportedModel": "해당 모델은 지원되지 않습니다. \nLLM 모델을 사용하세요."
     }
   },

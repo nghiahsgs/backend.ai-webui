@@ -791,8 +791,12 @@
       "ModelName": "Nama model",
       "Author": "Pengarang",
       "InvalidHuggingFaceUrl": "URL Hugging Face tidak sah.",
-      "ServiceName": "Nama perkhidmatan",
       "ModelStoreFolderName": "Nama folder kedai model",
+      "ServiceName": "Nama perkhidmatan",
+      "NewModelStoreFolderHasBeenCreated": "Folder kedai model baharu telah dibuat",
+      "NewServiceHasBeenCreated": "Perkhidmatan baharu telah dibuat",
+      "OpenFolder": "Buka folder",
+      "ViewServiceInfo": "Lihat maklumat perkhidmatan",
       "NotSupportedModel": "Model tidak disokong. \nSila gunakan model LLM."
     }
   },

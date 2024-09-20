@@ -423,8 +423,12 @@
       "ModelName": "Nombre del modelo",
       "Author": "Autor",
       "InvalidHuggingFaceUrl": "URL Hugging Face no válida.",
-      "ServiceName": "Nombre del servicio",
       "ModelStoreFolderName": "Nombre de la carpeta de la tienda de modelos",
+      "ServiceName": "Nombre del servicio",
+      "NewModelStoreFolderHasBeenCreated": "Se ha creado una nueva carpeta de tienda de modelos.",
+      "NewServiceHasBeenCreated": "Se ha creado un nuevo servicio.",
+      "OpenFolder": "Abrir carpeta",
+      "ViewServiceInfo": "Ver información del servicio",
       "NotSupportedModel": "El modelo no es compatible. \nUtilice el modelo LLM."
     }
   },

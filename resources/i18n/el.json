@@ -792,8 +792,12 @@
       "ModelName": "Όνομα μοντέλου",
       "Author": "Συγγραφέας",
       "InvalidHuggingFaceUrl": "Μη έγκυρη διεύθυνση URL Hugging Face.",
-      "ServiceName": "Όνομα υπηρεσίας",
       "ModelStoreFolderName": "Όνομα φακέλου καταστήματος μοντέλου",
+      "ServiceName": "Όνομα υπηρεσίας",
+      "NewModelStoreFolderHasBeenCreated": "Δημιουργήθηκε ένας νέος φάκελος καταστήματος μοντέλων",
+      "NewServiceHasBeenCreated": "Μια νέα υπηρεσία δημιουργήθηκε",
+      "OpenFolder": "Άνοιγμα φακέλου",
+      "ViewServiceInfo": "Προβολή πληροφοριών υπηρεσίας",
       "NotSupportedModel": "Το μοντέλο δεν υποστηρίζεται. \nΧρησιμοποιήστε το μοντέλο LLM."
     }
   },

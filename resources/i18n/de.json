@@ -794,7 +794,11 @@
       "InvalidHuggingFaceUrl": "Ungültige Hugging Face URL.",
       "ServiceName": "Dienstname",
       "ModelStoreFolderName": "Name des Modellspeicherordners",
-      "NotSupportedModel": "Das Modell wird nicht unterstützt. \nBitte nutzen Sie das LLM-Modell."
+      "NotSupportedModel": "Das Modell wird nicht unterstützt. \nBitte nutzen Sie das LLM-Modell.",
+      "NewModelStoreFolderHasBeenCreated": "Ein neuer Modellspeicherordner wurde erstellt",
+      "NewServiceHasBeenCreated": "Ein neuer Dienst wurde erstellt",
+      "OpenFolder": "Ordner öffnen",
+      "ViewServiceInfo": "Serviceinformationen anzeigen"
     }
   },
   "dialog": {

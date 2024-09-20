@@ -919,6 +919,11 @@
       "InvalidHuggingFaceUrl": "Invalid Hugging Face URL.",
       "ModelStoreFolderName": "Model store folder name",
       "ServiceName": "Service name",
+      "HuggingFaceURL": "Higging Face",
+      "NewModelStoreFolderHasBeenCreated": "A new model store folder has been created",
+      "NewServiceHasBeenCreated": "A new service has been created",
+      "OpenFolder": "Open folder",
+      "ViewServiceInfo": "View service info",
       "NotSupportedModel": "The model is not supported. Please use the LLM model."
     }
   },

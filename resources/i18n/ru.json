@@ -792,8 +792,12 @@
       "ModelName": "Название модели",
       "Author": "Автор",
       "InvalidHuggingFaceUrl": "Неверный URL-адрес Hugging Face.",
-      "ServiceName": "Название службы",
       "ModelStoreFolderName": "Имя папки хранилища моделей",
+      "ServiceName": "Название службы",
+      "NewModelStoreFolderHasBeenCreated": "Создана новая папка хранилища моделей.",
+      "NewServiceHasBeenCreated": "Создан новый сервис",
+      "OpenFolder": "Открыть папку",
+      "ViewServiceInfo": "Посмотреть информацию об услуге",
       "NotSupportedModel": "Модель не поддерживается. \nПожалуйста, используйте модель LLM."
     }
   },

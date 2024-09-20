@@ -793,7 +793,11 @@
       "InvalidHuggingFaceUrl": "Hugging Face URL 无效。",
       "ServiceName": "服務名稱",
       "ModelStoreFolderName": "模型儲存資料夾名稱",
-      "NotSupportedModel": "不支援該型號。\n請使用LLM模型。"
+      "NotSupportedModel": "不支援該型號。\n請使用LLM模型。",
+      "NewModelStoreFolderHasBeenCreated": "已建立新的模型儲存資料夾",
+      "NewServiceHasBeenCreated": "已建立新服務",
+      "OpenFolder": "打開資料夾",
+      "ViewServiceInfo": "查看服務資訊"
     }
   },
   "dialog": {

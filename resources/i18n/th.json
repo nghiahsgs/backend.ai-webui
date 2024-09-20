@@ -909,8 +909,12 @@
       "ModelName": "ชื่อรุ่น",
       "Author": "ผู้เขียน",
       "InvalidHuggingFaceUrl": "URL Hugging Face ไม่ถูกต้อง",
-      "ServiceName": "ชื่อบริการ",
       "ModelStoreFolderName": "ชื่อโฟลเดอร์ร้านค้าโมเดล",
+      "ServiceName": "ชื่อบริการ",
+      "NewModelStoreFolderHasBeenCreated": "สร้างโฟลเดอร์ร้านค้าโมเดลใหม่แล้ว",
+      "NewServiceHasBeenCreated": "มีการสร้างบริการใหม่แล้ว",
+      "OpenFolder": "เปิดโฟลเดอร์",
+      "ViewServiceInfo": "ดูข้อมูลบริการ",
       "NotSupportedModel": "ไม่รองรับโมเดลนี้ \nกรุณาใช้แบบจำลอง LLM"
     }
   },

@@ -423,8 +423,12 @@
       "ModelName": "Mallin nimi",
       "Author": "Kirjoittaja",
       "InvalidHuggingFaceUrl": "Virheellinen Hugging Face URL-osoite.",
-      "ServiceName": "Palvelun nimi",
       "ModelStoreFolderName": "Mallin tallennuskansion nimi",
+      "ServiceName": "Palvelun nimi",
+      "NewModelStoreFolderHasBeenCreated": "Uusi mallikauppakansio on luotu",
+      "NewServiceHasBeenCreated": "Uusi palvelu on luotu",
+      "OpenFolder": "Avaa kansio",
+      "ViewServiceInfo": "Katso palvelutiedot",
       "NotSupportedModel": "Mallia ei tueta. \nKäytä LLM-mallia."
     }
   },

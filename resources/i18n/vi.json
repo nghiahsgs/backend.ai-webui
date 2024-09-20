@@ -792,8 +792,12 @@
       "ModelName": "Tên mẫu",
       "Author": "Tác giả",
       "InvalidHuggingFaceUrl": "URL Hugging Face không hợp lệ.",
-      "ServiceName": "Tên dịch vụ",
       "ModelStoreFolderName": "Tên thư mục lưu trữ mô hình",
+      "ServiceName": "Tên dịch vụ",
+      "NewModelStoreFolderHasBeenCreated": "Một thư mục lưu trữ mô hình mới đã được tạo",
+      "NewServiceHasBeenCreated": "Một dịch vụ mới đã được tạo",
+      "OpenFolder": "Mở thư mục",
+      "ViewServiceInfo": "Xem thông tin dịch vụ",
       "NotSupportedModel": "Mô hình không được hỗ trợ. \nVui lòng sử dụng mô hình LLM."
     }
   },

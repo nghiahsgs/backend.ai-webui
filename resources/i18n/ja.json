@@ -792,8 +792,12 @@
       "ModelName": "モデル名",
       "Author": "著者",
       "InvalidHuggingFaceUrl": "無効なHugging Face URLです。",
-      "ServiceName": "サービス名",
       "ModelStoreFolderName": "モデルストアフォルダー名",
+      "ServiceName": "サービス名",
+      "NewModelStoreFolderHasBeenCreated": "新しいモデル ストア フォルダーが作成されました",
+      "NewServiceHasBeenCreated": "新しいサービスが作成されました",
+      "OpenFolder": "フォルダーを開く",
+      "ViewServiceInfo": "サービス情報を見る",
       "NotSupportedModel": "このモデルはサポートされていません。 \nLLMモデルを使用してください。"
     }
   },

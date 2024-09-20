@@ -793,8 +793,12 @@
       "CheckHuggingFaceUrl": "Шалгах",
       "ModelName": "Загварын нэр",
       "InvalidHuggingFaceUrl": "Хүчингүй Hugging Face URL.",
-      "ServiceName": "Үйлчилгээний нэр",
       "ModelStoreFolderName": "Загварын дэлгүүрийн хавтасны нэр",
+      "ServiceName": "Үйлчилгээний нэр",
+      "NewModelStoreFolderHasBeenCreated": "Шинэ загварын дэлгүүрийн хавтас үүсгэгдсэн",
+      "NewServiceHasBeenCreated": "Шинэ үйлчилгээ бий болсон",
+      "OpenFolder": "Фолдер нээх",
+      "ViewServiceInfo": "Үйлчилгээний мэдээллийг харах",
       "NotSupportedModel": "Энэ загварыг дэмждэггүй. \nLLM загварыг ашиглана уу."
     }
   },
