@@ -554,6 +554,7 @@ export default class BackendAIResourcePanel extends BackendAIPage {
         elevation="1"
         narrow
         height="${this.height}"
+        scrollableY="true"
       >
         <div slot="message">
           <div class="horizontal justified layout wrap indicators">
